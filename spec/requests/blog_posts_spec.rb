@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'BlogPosts Api', type: :request do
   let!(:blog_posts) {create_list(:blog_post, 10)}
-  let(:blog_post_id) {blog_posts.first}
+  let(:blog_post_id) {blog_posts.first.id}
 
   describe 'GET /blog_posts' do
     before {get '/blog_posts'}
@@ -21,9 +21,9 @@ describe 'BlogPosts Api', type: :request do
     before {get "/blog_posts/#{blog_post_id}"}
 
     context 'when the record exists' do
-      it 'returns the todo' do
+      it 'returns the blog' do
         expect(json).not_to be_empty
-        expect(json['id']).to eq(blog_posts)
+        expect(json['id']).to eq(blog_post_id)
       end
 
       it 'returns status code 200' do
@@ -51,7 +51,7 @@ describe 'BlogPosts Api', type: :request do
     context 'when the request is valid' do
       before { post '/blog_posts', params: valid_attributes }
 
-      it 'creates a todo' do
+      it 'creates a blog' do
         expect(json['title']).to eq('Learn Rails')
       end
 
@@ -84,8 +84,8 @@ describe 'BlogPosts Api', type: :request do
         expect(json['title']).to eq('Learn kung fu')
       end
 
-      it 'returns status code 204' do
-        expect(response).to have_http_status(204)
+      it 'returns status code 202' do
+        expect(response).to have_http_status(202)
       end
     end
 
