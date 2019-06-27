@@ -88,19 +88,6 @@ describe 'BlogPosts Api', type: :request do
         expect(response).to have_http_status(202)
       end
     end
-
-    context 'when the request is invalid' do
-      before { post "/blog_posts/#{100}", params: { title: 'Foobar' } }
-
-      it 'returns status code 422' do
-        expect(response).to have_http_status(422)
-      end
-
-      it 'returns a validation failure message' do
-        expect(response.body)
-          .to match(/Validation failed: Author can't be blank/)
-      end
-    end
   end
 
   describe 'DELETE /blog_posts/:id' do

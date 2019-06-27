@@ -10,7 +10,7 @@ class BlogPostsController < ApplicationController
   end
 
   def create
-    @blog_post = BlogPost.create(blog_params)
+    @blog_post = BlogPost.create!(blog_params)
     render json: @blog_post, status: :created
   end
 
@@ -25,7 +25,7 @@ class BlogPostsController < ApplicationController
     @blog_post.destroy
     head :no_content
   end
-  
+
   private
 
   def blog_params
