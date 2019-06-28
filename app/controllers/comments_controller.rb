@@ -5,6 +5,24 @@ class CommentsController < ApplicationController
     render json: Comment.where(blog_post_id: params[:blog_post_id])
   end
 
+  def threaded_comments
+    comments_on_blog = Comment.where(blog_post_id: params[:blog_post_id])
+    roots = []
+    all_comments = Hash.new
+    comments_on_blog.each do |comment|
+      comment_map = comment_to_map(comment)
+      puts comment_map
+
+      all_comments[comment_map['id']] = comment_map
+      if comment.commentable_type == 'BlogPost'
+        roots << comment_map
+      else
+        all_comments[comment.commentable_id]['threaded_comments'] << comment_map
+      end
+    end
+    render json: roots
+  end
+
   def show
     render json: Comment.find(params[:id])
   end
